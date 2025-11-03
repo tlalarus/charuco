@@ -10,13 +10,16 @@ dictionary = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_250)
 # 입력값
 dpi = 300
 
-width_mm = 290
-height_mm = 200
+square_x_count = 9
+square_y_count = 6
+square_length_mm = 85
+marker_length_mm = 40
 
-square_x_count = 11
-square_y_count = 8
-square_length_mm = 20
-marker_length_mm = 15
+bg_width_mm = 800
+bg_height_mm = 600
+
+width_mm = square_x_count * square_length_mm
+height_mm = square_y_count * square_length_mm
 
 margin_minimum_mm = 0 # 양쪽 마진 최소값 
 
@@ -84,8 +87,6 @@ img = board.generateImage(
   marginSize=margin_px
 )
 
-bg_width_mm = 297
-bg_height_mm = 210
 bg_width_px = int(bg_width_mm / 25.4 * dpi)
 bg_height_px = int(bg_height_mm / 25.4 * dpi)
 background = np.ones((bg_height_px, bg_width_px, 3), dtype=np.uint8) * 255
@@ -103,12 +104,22 @@ background[top:top + height_without_margin_px, left:left + width_without_margin_
 new_size = (int(width_px*display_scale), int(height_px*display_scale))
 img_display = cv2.resize(img, new_size, interpolation=cv2.INTER_AREA)
 
-background_display = cv2.resize(background, new_size, interpolation=cv2.INTER_AREA)
+display_size_bg = (int(bg_width_px*display_scale), int(bg_height_px*display_scale))
+background_display = cv2.resize(background, display_size_bg, interpolation=cv2.INTER_AREA)
 
 # cv2.imshow("calibration target", img_display)
 cv2.imshow("calibration target", background_display)
 cv2.waitKey(0)
 
-cv2.imwrite('charuco.png', background)
+fileName = "charuco_{}x{}_{}x{}_{}_{}".format(bg_width_mm, bg_height_mm, square_x_count, square_y_count, square_length_mm, marker_length_mm)
+
+pngName = fileName + '.png'
+cv2.imwrite(pngName, background)
+cv2.imwrite('./without_margin/'+pngName, img)
+
+from PIL import Image
+
+pdfName = fileName + '.pdf'
+Image.open(pngName).convert('RGB').save(pdfName, 'PDF', resolution=300.0)
 
 # 2.7, 1.4
