@@ -1,6 +1,34 @@
 # charuco
 ChArUco 보드를 이용한 캘리브레이션 예제 연습
 
+## 📁 프로젝트 구조
+
+```
+charuco/
+├── README.md                        # 프로젝트 주요 설명서
+├── pyproject.toml                   # Poetry 프로젝트 설정
+├── poetry.lock                      # 의존성 잠금 파일
+│
+├── notebooks/                       # Jupyter 분석 및 실험 노트북
+│   ├── calibration_charuco.ipynb    # ChArUco 캘리브레이션 실험
+│   ├── charuco_coverage.ipynb       # 보드 커버리지 분석
+│   ├── batch_eval.ipynb             # 배치 평가
+│   └── batch_evaluation.ipynb       # 배치 평가 확장
+│
+├── data/                            # 데이터 관련 폴더
+│   └── results/                     # 분석 결과 및 이미지
+│       ├── result.txt               # 평가 결과 텍스트
+│       └── tv_side_*.bmp            # 커버리지 및 쿼드 이미지
+│
+├── augmentation/                    # ✨ ChArUco 이미지 증강
+│   ├── README.md                    # 증강 방법 설명서 ([링크](augmentation/README.md))
+│   ├── notebooks/                   # 증강 실험 노트북
+│   ├── scripts/                     # 증강 유틸리티 스크립트
+│   └── results/                     # 증강된 이미지 저장
+│
+└── src/                             # (향후) 핵심 소스 코드
+```
+
 ## poetry
 
 ## Chessboard Calibration Image Metrics & Scoring
